@@ -1,7 +1,3 @@
-## Notes on lab4C
-
-
-
 ## Notes on lab4B
 
 If the exploit throws a segfault, there is a big chance that it is because a mismatch at the shellcode address.
