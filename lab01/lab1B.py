@@ -36,6 +36,6 @@ key = ord('C') ^ 0x51
 inp = 0x1337d00d - key
 
 # Now that we have our input, we can crack the file
-os.system('(python -c \'print %s\'; echo "cat /home/lab1A/.pass > ' % inp +
+os.system('(python -c \'print %d\'; echo "cat /home/lab1A/.pass > ' % inp +
           '/tmp/lab1A.pass";) | /levels/lab01/lab1B')
 print '\n[+] level lab1B cracked, password saved in /tmp/lab1A.pass'
