@@ -1,10 +1,34 @@
 #!/bin/bash
 
+#########################################################################
+#                  wzpass -- WarZone access automation                  #
+#                  created by  Ivan 'evilgroot' Luengo                  #
+#                                                                       #
+#   This script will automate the process of login and file copying     #
+#  from/to the warzone.                                                 #
+#                                                                       #
+#   Once you exploit a level and get the flag, you can store it in a    #
+#  file on your local system. Then you can access to that level without #
+#  having to copy/paste the password every time you want to log in.     #
+#                                                                       #
+#   You can specify the path to the file in the command line with the   #
+#  -f/--file option or store  in an environment variable called         #
+#  WARZONE_PASSWORD_FILE                                                #
+#                                                                       #
+#   This script can then access to that file and parse the password for #
+#  you the next time you log in with wzpass. For wzpass to parse cor-   #
+#  rectly the flags, the file must have this format:                    #
+#   labXC : password_for_labXC                                          #
+#   labXB : password_for_labXB                                          #
+#   ... and so on                                                       #
+#                                                                       #
+#########################################################################
+
 function usage {
     echo "usage: $1 [options] [log] [up | dwn] <user> <host> [<source>]"
     echo
     echo "Commands:"
-    echo "log       Log in as <user>, if up or dwn are also specified, the log in"
+    echo "log       Log in as <user>. If up or dwn are also specified, the log in"
     echo "          process will take place after the file transfering"
     echo "up        Copy <source> file into /tmp/<source> on the warzone server"
     echo "dwn       Copy <source> from the warzone server into the current working directory."
@@ -12,6 +36,13 @@ function usage {
     echo "Options:"
     echo "-f, --file FILE    Use this file as the password file"
     echo "-h, --help         Shows this information and exits"
+    echo
+    echo "Examples:"
+    echo "$1 lab5B 10.0.0.2                             -- logs in as lab5B"
+    echo "$1 -f /path/to/passwords lab7A 10.0.0.2       -- logs in as lab7A parsing from /path/to/passwords"
+    echo "$1 up lab3B 10.0.0.2 /path/to/exploit3B       -- uploads /path/to/exploit3B to /tmp/exploit3B"
+    echo "$1 dwn lab2C 10.0.0.2 /levels/lab02/lab2C     -- downloads /levels/lab02/lab2C to ./lab2C"
+    echo "$1 log up lab6A 10.0.0.2 exploit6A            -- uploads exploit6A to /tmp/exploit6A and logs in as lab6A"
     exit 0
 }
 
