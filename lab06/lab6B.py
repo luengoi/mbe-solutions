@@ -13,7 +13,13 @@ import time
 # the binary locally, we won't get access to the secretpass.
 
 #   Exploitation: This is a RCE based challenge. We must pwn the service
-# running in port 6642 in order to get the flag.
+# running in port 6642 in order to get the flag. This challenge has a bug
+# in function login_prompt(). With fgets(), the program can read up to 0x80
+# bytes from stdin and then copies 0x20 bytes to the user and password
+# buffers. Since the buffers are next to each other, we can leak information
+# of the stack by printing the user buffer (until it reaches a NULL) and
+# use the hash function to alter stack values aswell (such as the return
+# address)
 
 
 # ******* IMPORTANT *******
