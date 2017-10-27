@@ -20,7 +20,7 @@ import time
 # Particularly print_name and make_note
 
 #   Exploitation: We will use the bug in setup_account to partially overwrite
-# print_name()'s address and with print_name()'s and then use that leaked info
+# print_listing()'s address with print_name()'s and then use that leaked info
 # to compute the address of system() and the pointer to "/bin/sh". Then, we can
 # use that bug again to overwrite main()'s return address (since that bug will
 # keep cat(ing) the description until we reach main()'s return address) with
