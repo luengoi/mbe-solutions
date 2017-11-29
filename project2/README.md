@@ -389,3 +389,5 @@ I migth do in the future) I enjoyed it very much.
 `After finishing exams, I spend more time working with the exploit code to make it nicer and more automated so I am uploading
 everything now to github (I didn't want to leave messy code :P). Thanks to the RPISEC team for making all this awesome stuff
 for us to learn and enjoy`
+
+The final code for the exploit can be found [here](nuk3m.py)
