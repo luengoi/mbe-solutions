@@ -8,9 +8,9 @@ The first thing I did was to play a bit with the challenge to see how much info 
 it, but apart from telling that it was a **binary bomb** with **three keys** to crack, I couldn't tell much more about it's
 internal behaviour.  
 
-<div style="text-align:center">
+<p align="center">
 <img width="300px" src="resources/images/rpisec_nuke_preview.png" alt="rpisec_nuke"/>  
-<div style="text-align:left">
+</p>
 
 I spent the little spare time I had the following days reversing the challenge with IDA so I could understand more about it.
 The first thing I noticed was that the callenge uses a structure to handle it's internal state:  
@@ -94,9 +94,9 @@ It was easy to spot that if I fed **"\x00\n"** to *fgets()*, `[1] would return 0
 with 0xffffffff (0-1) zeros`. Then, `[3] would return 0 aswell and [4] would compare 0 characters which will also return 0`
 tricking the program into thinking that the key was properly introduced.
 
-<div style="text-align:center">
+<p align="center">
 <img width="300px" src="resources/images/rpisec_nuke_auth1.png" alt="Key 1 auth"/>
-<div style="text-align:left">
+</p>
 
 ### General Crowell's key
 As in keyauth_one(), this routine creates a secure channel in the first attempt:
@@ -187,9 +187,9 @@ def crack_prng_seed(t, c, s, n=10):
 
 With the proper seed, reversing the xor'ed key was a piece of cake.
 
-<div style="text-align:center">
+<p align="center">
 <img width="500px" src="resources/images/rpisec_nuke_key2.png" alt="Key 2 Cracking"/>
-<div style="text-align:left">
+</p>
 
 ### General DOOM's key
 This routine uses this secure channel:
@@ -227,9 +227,9 @@ openssl enc -d -aes-128-cbc -K "00000000000000000000000000000000" -iv "cffaedfed
 `**NOTE**: This key can potentially be bypassed by reversing the challenge and response-checking algorithms to generate a
 valid response aswell. Since I didn't have much time, I decided to go with the method I described.`
 
-<div style="text-align:center">
+<p align="center">
 <img width="300px" src="resources/images/rpisec_nuke_3keys.png" alt="All keys bypassed"/>
-<div style="text-align:left">
+</p>
 
 ## NUKE86 programming
 The next step was programming the warhead. After reversing *program_nuke()* I discovered two things:
@@ -341,9 +341,9 @@ class Nuke86(object):
 ### Detonating on GENERAL DOOM
 Whit all of this, detonating on any arbitrary target was pretty straight forward:
 
-<div style="text-align:center">
+<p align="center">
 <img width="300px" src="resources/images/rpisec_nuke_doomdestroyed.png" alt="General DOOM destroyed"/>
-<div style="text-align:left">
+</p>
 
 Bye bye General Doom.
 
@@ -362,12 +362,13 @@ was everything a hacker dreams of:
     1. **Insert "/bin/sh" in the traget status buffer** with a combination of 'I' and 'S' instructions.
     2. **Increment the target status pointer** until it reached *detonate_nuke*.
     3. **Overwrite that address with system()'s** with a combination of 'I' and 'S' instructions.  
+
 I was hoping to get the prompt and start writing commands to read the flag. Something unexpected but interesting happened when
 I typed `whoami` to verify I gained privileges:
 
-<div style="text-align:center">
+<p align="center">
 <img width="300px" src="resources/images/rpisec_nuke_shitshell.png" alt="Shitshell"/>
-<div style="text-align:left">
+</p>
 
 It seems that they have `overloaded some libc bootstrap to prevent us from using system()` or something like that so I had to
 change the exploitation strategy. My next approach was to `build a ROP chain to execute execve("/bin/sh", NULL, NULL)`:  
@@ -375,9 +376,9 @@ change the exploitation strategy. My next approach was to `build a ROP chain to 
 + Then, I `inserted the ROP chain in the target status buffer` and `change *disarm_nuke()* address for a gadget to pivot
 the stack pointer` to the rest of the chain.
 
-<div style="text-align:center">
+<p align="center">
 <img width="300px" src="resources/images/rpisec_nuke_flag.png" alt="Flag"/>
-<div style="text-align:left">
+</p>
 
 Ignoring the fact that the output is terribly ugly, the ROP chain worked perfectly. I managed to get a shell with
 **project2_priv** privileges and read the flag. Challenge overcome, nuke86 pwned :)  
