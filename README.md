@@ -19,7 +19,7 @@ a binary to reverse engineer with more powerful tools on your host machine (such
 
 ## Disclaimer
 I am new to the cyber security world, and I am using this warzone to build up my hacking skills. There might be more
-eficient ways of solving the problems found here, theese are my solutions.  
+eficient ways of solving the problems found here, these are my solutions.  
 IMPORTANT: Note that looking at this solutions without even trying to solve the problems first, will ruin the fun of playing this
 warzone. I strongly encourage the possible readers to try to solve the levels before reading my solutions. Please feel free to
 contact me at evilgroot@gmail.com if you need help or just want to discuss a level.
